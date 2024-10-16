@@ -1,0 +1,8 @@
+# ignore the files named
+.classpath
+.project
+
+# ignore ALL files in ANY directory named  
+build/
+.settings/
+src/main/java
