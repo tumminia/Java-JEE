@@ -1,37 +1,31 @@
 package pietro.jdbc;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlClass implements DatabaseClass {
+
+public class Pg implements DatabaseClass{
 	private String url;
 	private String user;
 	private String pwd;
 	
-	public MySqlClass() {
-        user = "root";
-        pwd = "password";
-        url = "jdbc:mysql://localhost:3306/sample?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=TRUE";
+	public Pg() {
+		url = "jdbc:postgresql://localhost:5432/ristorante";
+        user = "postgres";
+        pwd = "gattoTopo@89";
 	}
-
+	
 	@Override
 	public List<Ristorante> giacenza() {
-        
         List<Ristorante> list = new ArrayList<Ristorante>();
         Ristorante ristorante = null;
 
         try (Connection conn = DriverManager.getConnection(url, user, pwd)) {
             if (conn != null) {
-            	String q = "SELECT * FROM ristorante.frigorifero ORDER BY ingrediente ASC ";
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(q);
+            	String q = "SELECT * FROM frigorifero ORDER BY ingrediente ASC ";
+                PreparedStatement st = conn.prepareStatement(q);
+                ResultSet rs = st.executeQuery();
                 
                 while(rs.next()) {
                 	String ingrediente = rs.getString("ingrediente");
@@ -97,9 +91,9 @@ public class MySqlClass implements DatabaseClass {
 		
         try (Connection conn = DriverManager.getConnection(url, user, pwd)) {
             if (conn != null) {
-            	String q = "SELECT tavolo,giorno,orario,COUNT(recapito) AS occupati FROM ristrorante.prenotazione GROUP BY tavolo,giorno,orario ORDER BY giorno";
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery(q);
+            	String q = "SELECT tavolo,giorno,orario,COUNT(recapito) AS occupati FROM prenotazione GROUP BY tavolo,giorno,orario ORDER BY giorno";
+                PreparedStatement st = conn.prepareStatement(q);
+                ResultSet rs = st.executeQuery();
                 
                 while(rs.next()) {
                 	int tavolo = rs.getInt("tavolo");
@@ -124,11 +118,12 @@ public class MySqlClass implements DatabaseClass {
 	
 	@Override
 	public void prenota(String n,String c,String t,String g,String o,int tav) {
-		String query = "INSERT INTO ristrorante.prenotazione (nome,cognome,recapito,giorno,orario,tavolo) "
+		String query = "INSERT INTO prenotazione (nome,cognome,recapito,giorno,orario,tavolo) "
 				+ " VALUES(?,?,?,?,?,?)"
 				;
 		
 		try (Connection conn = DriverManager.getConnection(url, user, pwd)){
+			
 			Date date = Date.valueOf(g);
 			
 			PreparedStatement st = conn.prepareStatement(query);
@@ -145,5 +140,10 @@ public class MySqlClass implements DatabaseClass {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void main(String[] args) {
+		Pg pg = new Pg();
+		for(Ristorante r : pg.one("Arancie"))
+				System.out.println(r.getIngrediente() + " " + r.getQuantita() + " " + r.getGiacenza());
+	}
 }
