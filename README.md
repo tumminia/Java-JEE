@@ -11,7 +11,7 @@ Che ha come obiettivo la gestione di un ristorante, e l'applicazione web è sudd
 - **table.jsp**: ti permette di visualizzare la disponibilità di un tavolo per giorno e orario;
 - In tutte pagine è possibile prenotare un tavolo da remoto, da menù a scomparsa.
 
-##Sicurezza
+## Sicurezza
 Contromisure contro la vulnerabilità **XSS - Cross Site Scripting**.
 
 ## Struttura del progetto
