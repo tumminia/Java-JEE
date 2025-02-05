@@ -1,4 +1,4 @@
-# Progetto Full-Stack: Back-end Java JEE e Front-end AngularJS
+# Progetto Full-Stack: Back-end Java JEE e Front-end AngularJS, Bootstap, e JQuery
 
 ## Descrizione
 
