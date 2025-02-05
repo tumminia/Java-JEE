@@ -12,7 +12,7 @@ Che ha come obiettivo la gestione di un ristorante, e l'applicazione web è sudd
 - In tutte pagine è possibile prenotare un tavolo da remoto, da menù a scomparsa.
 
 ## Sicurezza
-Contromisure contro la vulnerabilità **XSS - Cross Site Scripting**.
+Contromisure contro la vulnerabilità **SQL injection**.
 
 ## Struttura del progetto
 
